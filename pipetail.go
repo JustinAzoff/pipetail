@@ -11,8 +11,7 @@ import (
 
 const LINESIZE = 2048
 
-func showlast(buffer []byte, lines int) {
-	s := string(buffer)
+func showlast(s string, lines int) {
 	parts := strings.Split(s, "\n")
 	num_parts := len(parts)
 	first := num_parts - lines - 1
@@ -25,19 +24,21 @@ func showlast(buffer []byte, lines int) {
 func pipetail(lines, interval int) {
 	bsize := lines * LINESIZE
 	buf := make([]byte, bsize)
+	lastbuf := make([]byte, bsize)
 	last := time.Now()
 
 	for {
-		_, err := io.ReadAtLeast(os.Stdin, buf, bsize)
-		if err != nil {
+		n, err := io.ReadAtLeast(os.Stdin, buf, bsize)
+		if err != nil || n < bsize {
+			showlast(string(lastbuf)+string(buf[0:n]), lines)
 			break
 		}
 		if time.Since(last) >= time.Duration(interval)*time.Second {
-			showlast(buf, lines)
+			showlast(string(lastbuf)+string(buf), lines)
 			last = time.Now()
 		}
+		buf, lastbuf = lastbuf, buf
 	}
-    showlast(buf, lines)
 }
 
 func main() {
