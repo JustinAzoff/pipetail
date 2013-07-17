@@ -30,6 +30,7 @@ func pipetail(lines, interval int) {
 	for {
 		n, err := io.ReadAtLeast(os.Stdin, buf, bsize)
 		if err != nil || n < bsize {
+			fmt.Println("--------------")
 			showlast(string(lastbuf)+string(buf[0:n]), lines)
 			break
 		}
