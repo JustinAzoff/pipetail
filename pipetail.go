@@ -45,7 +45,7 @@ func pipetail(lines, interval int) {
 func main() {
 	var lines, interval int
 	flag.IntVar(&lines, "n", 20, "Number of lines to output")
-	flag.IntVar(&interval, "interval", 1, "Delay between output")
+	flag.IntVar(&interval, "i", 1, "Interval delay between output in seconds")
 	flag.Parse()
 	pipetail(lines, interval)
 }
