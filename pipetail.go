@@ -16,6 +16,9 @@ func showlast(s string, lines int) {
 	num_parts := len(parts)
 	first := num_parts - lines - 1
 	last := num_parts - 1
+	if first < 0 {
+		first = 0
+	}
 	for _, line := range parts[first:last] {
 		fmt.Println(line)
 	}
